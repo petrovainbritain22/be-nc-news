@@ -55,3 +55,18 @@ describe("GET", () => {
       });
   });
 });
+describe("PATCH", () => {
+  test("200: /api/articles/:article_id - Request body accepts an object in the form { inc_votes: newVote } and returns udated article with incremented vote", () => {
+    const incrementVote = {inc_votes: 1};
+    // const decrementVote = {inc_votes: -100};
+    const article_id = 2;
+    return request(app)
+      .patch(`/api/articles/${article_id}`)
+      .send(incrementVote)
+      .expect(201)
+      .then(({body}) => {
+        expect(body.article).toHaveProperty("votes", 1);
+        expect(body.article).toHaveProperty("article_id", 2);
+      });
+  });
+});

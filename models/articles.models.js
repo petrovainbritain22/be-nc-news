@@ -13,3 +13,16 @@ exports.selectArticleById = (article_id) => {
     }
   });
 };
+exports.updateArticleByVote = (article_id, inc_votes) => {
+  const updateArticleByVoteQueryStr = `UPDATE articles 
+  SET votes = articles.votes + $1 
+  WHERE article_id = $2 
+  RETURNING *;`;
+
+  const updateArticleByVoteVariables = [inc_votes, article_id];
+  return db
+    .query(updateArticleByVoteQueryStr, updateArticleByVoteVariables)
+    .then(({rows}) => {
+      return rows[0];
+    });
+};
