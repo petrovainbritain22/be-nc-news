@@ -22,15 +22,16 @@ describe("API", () => {
       });
   });
 });
+
 describe("GET", () => {
-  test("200: Responds with an array of topic objects, each of which has properties - 'slug', 'description'", () => {
+  test("200: /api/topics - Responds with an array of topic objects, each of which has properties - 'slug', 'description'", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
       .then(({body}) => {
-        expect(Array.isArray(body)).toBe(true);
-        expect(body.length).toBe(3);
-        body.forEach((topic) => {
+        expect(Array.isArray(body.topics)).toBe(true);
+        expect(body.topics.length).toBe(3);
+        body.topics.forEach((topic) => {
           expect(topic).toHaveProperty("slug", expect.any(String));
           expect(topic).toHaveProperty("description", expect.any(String));
         });

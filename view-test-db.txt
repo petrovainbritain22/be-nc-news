@@ -1,8 +1,0 @@
-You are now connected to database "nc_news" as user "viktoriiapetrova".
-   slug   |               description               
-----------+-----------------------------------------
- coding   | Code is love, code is life
- football | FOOTIE!
- cooking  | Hey good looking, what you got cooking?
-(3 rows)
-
