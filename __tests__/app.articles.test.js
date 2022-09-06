@@ -26,10 +26,10 @@ describe("GET", () => {
       .get("/api/articles/4")
       .expect(200)
       .then(({body}) => {
-        expect(body).toEqual(
+        expect(body.article).toEqual(
           expect.objectContaining({
             title: expect.any(String),
-            article_id: expect.any(Number),
+            article_id: 4,
             body: expect.any(String),
             topic: expect.any(String),
             created_at: expect.any(String),
