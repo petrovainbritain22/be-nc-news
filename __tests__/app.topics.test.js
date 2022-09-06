@@ -12,23 +12,13 @@ afterAll(() => {
   return db.end();
 });
 
-describe("API", () => {
-  test("404: Route not found", () => {
-    return request(app)
-      .get("/api/notARoute")
-      .expect(404)
-      .then(({body}) => {
-        expect(body).toHaveProperty("msg", "Route not found");
-      });
-  });
-});
-
 describe("GET", () => {
   test("200: /api/topics - Responds with an array of topic objects, each of which has properties - 'slug', 'description'", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
       .then(({body}) => {
+        expect(body).toHaveProperty("topics");
         expect(Array.isArray(body.topics)).toBe(true);
         expect(body.topics.length).toBe(3);
         body.topics.forEach((topic) => {
