@@ -63,10 +63,18 @@ describe("PATCH", () => {
     return request(app)
       .patch(`/api/articles/${article_id}`)
       .send(incrementVote)
-      .expect(201)
+      .expect(200)
       .then(({body}) => {
-        expect(body.article).toHaveProperty("votes", 1);
-        expect(body.article).toHaveProperty("article_id", 2);
+        expect(body.article).toEqual(
+          expect.objectContaining({
+            title: expect.any(String),
+            article_id: 2,
+            body: expect.any(String),
+            topic: expect.any(String),
+            created_at: expect.any(String),
+            votes: 1,
+          })
+        );
       });
   });
   test("200: /api/articles/:article_id - returns updated article with decremented vote", () => {
@@ -75,10 +83,18 @@ describe("PATCH", () => {
     return request(app)
       .patch(`/api/articles/${article_id}`)
       .send(decrementVote)
-      .expect(201)
+      .expect(200)
       .then(({body}) => {
-        expect(body.article).toHaveProperty("votes", 0);
-        expect(body.article).toHaveProperty("article_id", 1);
+        expect(body.article).toEqual(
+          expect.objectContaining({
+            title: expect.any(String),
+            article_id: 1,
+            body: expect.any(String),
+            topic: expect.any(String),
+            created_at: expect.any(String),
+            votes: 0,
+          })
+        );
       });
   });
   test("400: Missing required fields on request body", () => {
