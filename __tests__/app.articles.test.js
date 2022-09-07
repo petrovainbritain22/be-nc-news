@@ -13,7 +13,7 @@ afterAll(() => {
 });
 
 describe("GET", () => {
-  test.only(`200: /api/articles responds with an array of article objects, which of each has properties: 
+  test(`200: /api/articles responds with an array of article objects, which of each has properties: 
         "author" 
         "title"
         "article_id"
