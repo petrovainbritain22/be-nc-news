@@ -21,7 +21,8 @@ describe("GET", () => {
         "body"
         "topic"
         "created_at"
-        "votes"`, () => {
+        "votes"
+        "comment_count"`, () => {
     return request(app)
       .get("/api/articles/4")
       .expect(200)
@@ -34,6 +35,7 @@ describe("GET", () => {
             topic: expect.any(String),
             created_at: expect.any(String),
             votes: expect.any(Number),
+            comment_count: "0",
           })
         );
       });
