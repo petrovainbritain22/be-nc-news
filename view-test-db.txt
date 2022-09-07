@@ -1,0 +1,17 @@
+You are now connected to database "nc_news_test" as user "viktoriiapetrova".
+    author     | article_id |                         title                          
+---------------+------------+--------------------------------------------------------
+ butter_bridge |          1 | Living in the shadow of a great man
+ icellusedkars |          2 | Sony Vaio; or, The Laptop
+ icellusedkars |          3 | Eight pug gifs that remind me of mitch
+ rogersop      |          4 | Student SUES Mitch!
+ rogersop      |          5 | UNCOVERED: catspiracy to bring down democracy
+ icellusedkars |          6 | A
+ icellusedkars |          7 | Z
+ icellusedkars |          8 | Does Mitch predate civilisation?
+ butter_bridge |          9 | They're not exactly dogs, are they?
+ rogersop      |         10 | Seven inspirational thought leaders from Manchester UK
+ icellusedkars |         11 | Am I a cat?
+ butter_bridge |         12 | Moustache
+(12 rows)
+

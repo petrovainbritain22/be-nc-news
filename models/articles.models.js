@@ -1,5 +1,15 @@
 const db = require("../db/connection");
 
+exports.selectArticles = () => {
+  const selectArticlesQueryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, count (comment_id) as comment_count 
+  FROM comments 
+  RIGHT OUTER JOIN articles 
+  ON comments.article_id = articles.article_id
+  GROUP BY articles.article_id, comments.article_id
+  ORDER BY articles.created_at;`;
+  return db.query(selectArticlesQueryStr).then(({rows}) => rows);
+};
+
 exports.selectArticleById = (article_id) => {
   const selectArticleByIdQueryStr = `SELECT count (comment_id) as comment_count, articles.title, articles.article_id, articles.body, articles.topic, articles.created_at, articles.votes
     FROM comments 

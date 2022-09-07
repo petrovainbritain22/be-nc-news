@@ -13,9 +13,39 @@ afterAll(() => {
 });
 
 describe("GET", () => {
+  test.only(`200: /api/articles responds with an array of article objects, which of each has properties: 
+        "author" 
+        "title"
+        "article_id"
+        "topic"
+        "created_at"
+        "votes"
+        "comment_count"
+        array is sorted by date in descending order`, () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then(({body}) => {
+        expect(Array.isArray(body.articles)).toBe(true);
+        body.articles.forEach((article) => {
+          expect(article).toEqual(
+            expect.objectContaining({
+              author: expect.any(String),
+              title: expect.any(String),
+              article_id: expect.any(Number),
+              topic: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              comment_count: expect.any(String),
+            })
+          );
+        });
+        expect(body.articles.length).toBe(12);
+      });
+  });
   test(`200: /api/articles/:article_id - 
     Responds with an article object, which has properties:
-        "author" which is the "username" from the users table
+        "author" 
         "title"
         "article_id"
         "body"
