@@ -13,9 +13,67 @@ afterAll(() => {
 });
 
 describe("GET", () => {
+  test(`200: /api/articles - Responds with an array of article objects, each of which has properties: 
+        "author" 
+        "title"
+        "article_id"
+        "topic"
+        "created_at"
+        "votes"
+        "comment_count".
+        Array is sorted by date in descending order`, () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then(({body}) => {
+        expect(Array.isArray(body.articles)).toBe(true);
+        body.articles.forEach((article) => {
+          expect(article).toEqual(
+            expect.objectContaining({
+              author: expect.any(String),
+              title: expect.any(String),
+              article_id: expect.any(Number),
+              topic: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              comment_count: expect.any(String),
+            })
+          );
+        });
+        expect(body.articles.length).toBe(12);
+        expect(body.articles).toBeSortedBy("created_at", {descending: true});
+      });
+  });
+  test(`200: /api/articles?topic=topic - Filters the articles by the topic value specified in the query`, () => {
+    return request(app)
+      .get(`/api/articles?topic=mitch`)
+      .expect(200)
+      .then(({body}) => {
+        expect(body.articles.length).toBe(11);
+        body.articles.forEach((article) => {
+          expect(article.topic).toBe("mitch");
+        });
+      });
+  });
+  test(`200: /api/articles?topic=topicInDB - If there aren't any articles with the topic from the query but topic exists in db`, () => {
+    return request(app)
+      .get("/api/articles?topic=paper")
+      .expect(200)
+      .then(({body}) => {
+        expect(body.articles).toEqual([]);
+      });
+  });
+  test(`404: /api/articles?topic=topicNotExists - If the topic doesn't exist in db`, () => {
+    return request(app)
+      .get("/api/articles?topic=topicNotExists")
+      .expect(404)
+      .then(({body}) => {
+        expect(body.msg).toBe("Topic not found");
+      });
+  });
   test(`200: /api/articles/:article_id - 
     Responds with an article object, which has properties:
-        "author" which is the "username" from the users table
+        "author" 
         "title"
         "article_id"
         "body"
@@ -48,7 +106,7 @@ describe("GET", () => {
         expect(body.msg).toBe("Article not found");
       });
   });
-  test(`400: /api/articles/:article_id - invalid article_id`, () => {
+  test(`400: /api/articles/:notArticleId - invalid article_id`, () => {
     return request(app)
       .get("/api/articles/notId")
       .expect(400)
