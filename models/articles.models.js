@@ -34,10 +34,7 @@ exports.selectArticles = (articleTopic) => {
       } else if (!articleTopic) {
         return Promise.reject({status: 404, msg: "Articles not found"});
       } else if (topicResult.rowCount > 0) {
-        return Promise.reject({
-          status: 200,
-          msg: `Articles about ${articleTopic} not found`,
-        });
+        return articleRows;
       } else {
         return Promise.reject({
           status: 404,

@@ -60,7 +60,7 @@ describe("GET", () => {
       .get("/api/articles?topic=paper")
       .expect(200)
       .then(({body}) => {
-        expect(body.msg).toBe("Articles about paper not found");
+        expect(body.articles).toEqual([]);
       });
   });
   test(`404: /api/articles?topic=topicNotExists - If the topic doesn't exist in db`, () => {
