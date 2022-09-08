@@ -13,7 +13,7 @@ afterAll(() => {
 });
 
 describe("GET", () => {
-  test(`200: /api/articles responds with an array of article objects, each of which has properties: 
+  test(`200: /api/articles - Responds with an array of article objects, each of which has properties: 
         "author" 
         "title"
         "article_id"
@@ -55,10 +55,10 @@ describe("GET", () => {
         });
       });
   });
-  test(`404: /api/articles?topic=topicInDB - If there aren't any articles with the topic from the query but topic exists in db`, () => {
+  test(`200: /api/articles?topic=topicInDB - If there aren't any articles with the topic from the query but topic exists in db`, () => {
     return request(app)
       .get("/api/articles?topic=paper")
-      .expect(404)
+      .expect(200)
       .then(({body}) => {
         expect(body.msg).toBe("Articles about paper not found");
       });

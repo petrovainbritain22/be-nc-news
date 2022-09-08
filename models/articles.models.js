@@ -6,8 +6,8 @@ exports.selectArticles = (articleTopic) => {
   FROM comments 
   RIGHT OUTER JOIN articles 
   ON comments.article_id = articles.article_id`;
-  const toSelectByTopic = articleTopic !== undefined;
-  if (toSelectByTopic) {
+
+  if (articleTopic) {
     selectArticlesQueryStr += ` WHERE articles.topic = $1`;
     selectArticlesQueryVariables.push(articleTopic);
   }
@@ -31,11 +31,11 @@ exports.selectArticles = (articleTopic) => {
       const selectedArticles = articleRows.length > 0;
       if (selectedArticles) {
         return articleRows;
-      } else if (!toSelectByTopic) {
+      } else if (!articleTopic) {
         return Promise.reject({status: 404, msg: "Articles not found"});
       } else if (topicResult.rowCount > 0) {
         return Promise.reject({
-          status: 404,
+          status: 200,
           msg: `Articles about ${articleTopic} not found`,
         });
       } else {
