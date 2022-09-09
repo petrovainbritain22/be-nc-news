@@ -111,7 +111,7 @@ describe("GET", () => {
       .get("/api/articles/notId")
       .expect(400)
       .then(({body}) => {
-        expect(body.msg).toBe("Bad request");
+        expect(body.msg).toBe("Invalid input");
       });
   });
 });
@@ -187,7 +187,7 @@ describe("PATCH", () => {
       .send(incrementVote)
       .expect(400)
       .then(({body}) => {
-        expect(body.msg).toBe("Bad request");
+        expect(body.msg).toBe("Invalid input");
       });
   });
   test("404: Article_id is valid but it doesn't exist in database`, ", () => {

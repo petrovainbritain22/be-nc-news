@@ -1,12 +1,13 @@
 const db = require("../db/connection");
+const format = require("pg-format");
 
 exports.selectCommentsByArticleId = (article_id) => {
-  let selectCommentsByArticleIdQueryStr = `SELECT comment_id, votes, created_at, author, body
+  let queryString = `SELECT comment_id, votes, created_at, author, body
   FROM comments 
   WHERE article_id = $1;`;
 
   return db
-    .query(selectCommentsByArticleIdQueryStr, [article_id])
+    .query(queryString, [article_id])
     .then(({rows: commentRows, rowCount}) => {
       const noSelectedComments = rowCount === 0;
       if (noSelectedComments) {
@@ -27,4 +28,22 @@ exports.selectCommentsByArticleId = (article_id) => {
         return commentRows;
       }
     });
+};
+
+exports.insertCommentByArticleId = (article_id, postedComment) => {
+  const variables = [article_id, postedComment.username, postedComment.body];
+
+  if (variables.includes(undefined)) {
+    return Promise.reject({status: 400, msg: "Required fields are missed"});
+  }
+
+  const queryString = `INSERT INTO comments
+  (article_id, author, body)
+  VALUES
+  %L
+  RETURNING *;`;
+  const formattedQueryString = format(queryString, [variables]);
+  return db.query(formattedQueryString).then(({rows}) => {
+    return rows[0];
+  });
 };
