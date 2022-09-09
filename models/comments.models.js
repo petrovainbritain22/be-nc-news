@@ -32,6 +32,11 @@ exports.selectCommentsByArticleId = (article_id) => {
 
 exports.insertCommentByArticleId = (article_id, postedComment) => {
   const variables = [article_id, postedComment.username, postedComment.body];
+
+  if (variables.includes(undefined)) {
+    return Promise.reject({status: 400, msg: "Required fields are missed"});
+  }
+
   const queryString = `INSERT INTO comments
   (article_id, author, body)
   VALUES

@@ -114,6 +114,16 @@ describe("POST - /api/articles/:article_id/comments", () => {
         expect(rowCount).toBe(19);
       });
   });
+  test(`400: returns an error message if empty object on the request body is sent`, () => {
+    const emptyComment = {};
+    return request(app)
+      .post("/api/articles/4/comments")
+      .send(emptyComment)
+      .expect(400)
+      .then(({body}) => {
+        expect(body.msg).toBe("Required fields are missed");
+      });
+  });
   test(`400: returns an error message if 'comment body' on the request body is missed`, () => {
     const commentWithoutBody = {
       username: "butter_bridge",
@@ -138,7 +148,7 @@ describe("POST - /api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("Required fields are missed");
       });
   });
-  test(`400: returns an error message if the username doesn't exist in the database`, () => {
+  test(`404: returns an error message if the username doesn't exist in the database`, () => {
     const commentFromNotSighedUpPerson = {
       username: "not_signed_up",
       body: "It takes longer to write tests than to write code",
@@ -146,12 +156,12 @@ describe("POST - /api/articles/:article_id/comments", () => {
     return request(app)
       .post("/api/articles/4/comments")
       .send(commentFromNotSighedUpPerson)
-      .expect(400)
+      .expect(404)
       .then(({body}) => {
         expect(body.msg).toBe("User with this name does not exist");
       });
   });
-  test(`400: returns an error message if the article_id doesn't exist in the database but is valid`, () => {
+  test(`404: returns an error message if the article_id doesn't exist in the database but is valid`, () => {
     const comment = {
       username: "butter_bridge",
       body: "Quite a lot of tickets in the project",
@@ -159,7 +169,7 @@ describe("POST - /api/articles/:article_id/comments", () => {
     return request(app)
       .post("/api/articles/1000/comments")
       .send(comment)
-      .expect(400)
+      .expect(404)
       .then(({body}) => {
         expect(body.msg).toBe("Article does not exist");
       });

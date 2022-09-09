@@ -7,18 +7,17 @@ exports.handleCustomErrors = (err, req, res, next) => {
 exports.handlePsqlErrors = (err, req, res, next) => {
   const psqlErrorsObject = {
     "22P02": "Invalid input",
-    23502: "Required fields are missed",
-  };
-  if (err.code === "23503") {
-    const notExistMessagesObject = {
+    23503: {
       author: "User with this name does not exist",
       article_id: "Article does not exist",
-    };
+    },
+  };
+  let errorMsg = psqlErrorsObject[err.code];
+  if (err.code === "23503") {
     const columnName = err.detail.match(/Key \((.*)\)=.*/)[1];
-
-    res.status(400).send({msg: notExistMessagesObject[columnName]});
-  } else if (psqlErrorsObject[err.code]) {
-    res.status(400).send({msg: psqlErrorsObject[err.code]});
+    res.status(404).send({msg: errorMsg[columnName]});
+  } else if (errorMsg) {
+    res.status(400).send({msg: errorMsg});
   } else next(err);
 };
 exports.handle500Errors = (err, req, res, next) => {
