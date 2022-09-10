@@ -81,12 +81,20 @@ describe(`GET - /api/articles (queries)`, () => {
     });
   });
   describe(`?sort_by=columnName`, () => {
-    test(`200: returns sorted articles, defaults to date descending`, () => {
+    test(`200: returns sorted articles, defaults to date (created_at) descending`, () => {
       return request(app)
         .get(`/api/articles`)
         .expect(200)
         .then(({body}) => {
           expect(body.articles).toBeSortedBy("created_at", {descending: true});
+        });
+    });
+    test(`200: returns sorted articles by author defaults to descending`, () => {
+      return request(app)
+        .get(`/api/articles?sort_by=author`)
+        .expect(200)
+        .then(({body}) => {
+          expect(body.articles).toBeSortedBy("author", {descending: true});
         });
     });
     test(`200: returns sorted articles by title defaults to descending`, () => {
@@ -113,6 +121,16 @@ describe(`GET - /api/articles (queries)`, () => {
           expect(body.articles).toBeSortedBy("votes", {descending: true});
         });
     });
+    test(`200: returns sorted articles by comments defaults to descending`, () => {
+      return request(app)
+        .get(`/api/articles?sort_by=comment_count`)
+        .expect(200)
+        .then(({body}) => {
+          expect(body.articles).toBeSortedBy("comment_count", {
+            descending: true,
+          });
+        });
+    });
     test(`200: order can be set to ascending`, () => {
       return request(app)
         .get(`/api/articles?sort_by=created_at&order=asc`)
@@ -127,6 +145,22 @@ describe(`GET - /api/articles (queries)`, () => {
         .expect(200)
         .then(({body}) => {
           expect(body.articles).toBeSortedBy("topic", {descending: true});
+        });
+    });
+    test(`400: responds with an error message if the column doesn't exist in the database`, () => {
+      return request(app)
+        .get("/api/articles?sort_by=columnName")
+        .expect(400)
+        .then(({body}) => {
+          expect(body.msg).toBe("Invalid criteria for sorting");
+        });
+    });
+    test(`400: responds with an error message if the sort order is not asc or desc`, () => {
+      return request(app)
+        .get("/api/articles?sort_by=author&order=wrongOrder")
+        .expect(400)
+        .then(({body}) => {
+          expect(body.msg).toBe("Invalid criteria for sorting");
         });
     });
   });

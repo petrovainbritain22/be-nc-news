@@ -6,12 +6,25 @@ exports.selectArticles = (
   sortColumn = "created_at",
   sortOrder = "DESC"
 ) => {
+  const isNotValidOrder = !/^asc|desc$/i.test(sortOrder);
+
+  const isNotValidColumn = ![
+    "author",
+    "title",
+    "topic",
+    "created_at",
+    "votes",
+    "comment_count",
+  ].includes(sortColumn);
+  if (isNotValidColumn || isNotValidOrder) {
+    return Promise.reject({status: 400, msg: "Invalid criteria for sorting"});
+  }
   const queryVariables = [];
+
   let queryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, count (comment_id) as comment_count 
   FROM comments 
   RIGHT OUTER JOIN articles 
   ON comments.article_id = articles.article_id`;
-
   if (articleTopic) {
     queryStr += ` WHERE articles.topic = %L`;
     queryVariables.push(articleTopic);
@@ -20,8 +33,6 @@ exports.selectArticles = (
   ORDER BY %I %s;`;
 
   queryVariables.push(sortColumn);
-  const isValidOrder = /^asc|desc$/.test(sortOrder);
-  if (!isValidOrder) sortOrder = "DESC";
   queryVariables.push(sortOrder.toUpperCase());
 
   const formattedQueryString = format(queryStr, ...queryVariables);
