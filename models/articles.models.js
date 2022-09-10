@@ -1,6 +1,11 @@
+const format = require("pg-format");
 const db = require("../db/connection");
 
-exports.selectArticles = (articleTopic) => {
+exports.selectArticles = (
+  articleTopic,
+  sortColumn = "created_at",
+  sortOrder = "DESC"
+) => {
   const queryVariables = [];
   let queryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, count (comment_id) as comment_count 
   FROM comments 
@@ -8,14 +13,20 @@ exports.selectArticles = (articleTopic) => {
   ON comments.article_id = articles.article_id`;
 
   if (articleTopic) {
-    queryStr += ` WHERE articles.topic = $1`;
+    queryStr += ` WHERE articles.topic = %L`;
     queryVariables.push(articleTopic);
   }
   queryStr += ` GROUP BY articles.article_id, comments.article_id
-  ORDER BY articles.created_at DESC;`;
+  ORDER BY %I %s;`;
 
+  queryVariables.push(sortColumn);
+  const isValidOrder = /^asc|desc$/.test(sortOrder);
+  if (!isValidOrder) sortOrder = "DESC";
+  queryVariables.push(sortOrder.toUpperCase());
+
+  const formattedQueryString = format(queryStr, ...queryVariables);
   return db
-    .query(queryStr, queryVariables)
+    .query(formattedQueryString)
     .then(({rows: articleRows, rowCount}) => {
       const noSelectedArticles = rowCount === 0;
       if (noSelectedArticles) {

@@ -1,3 +1,4 @@
+const {sort} = require("../db/data/test-data/articles");
 const {
   selectArticles,
   selectArticleById,
@@ -5,7 +6,8 @@ const {
 } = require("../models/articles.models");
 
 exports.getArticles = (req, res, next) => {
-  selectArticles(req.query.topic)
+  const {topic, sort_by, order} = req.query;
+  selectArticles(topic, sort_by, order)
     .then((articlesArray) => {
       res.status(200).send({articles: articlesArray});
     })

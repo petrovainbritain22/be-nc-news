@@ -89,6 +89,58 @@ describe(`GET - /api/articles (queries)`, () => {
           expect(body.articles).toBeSortedBy("created_at", {descending: true});
         });
     });
+    test(`200: returns sorted articles by title defaults to descending`, () => {
+      return request(app)
+        .get(`/api/articles?sort_by=title`)
+        .expect(200)
+        .then(({body}) => {
+          expect(body.articles).toBeSortedBy("title", {descending: true});
+        });
+    });
+    test(`200: returns sorted articles by topic defaults to descending`, () => {
+      return request(app)
+        .get(`/api/articles?sort_by=topic`)
+        .expect(200)
+        .then(({body}) => {
+          expect(body.articles).toBeSortedBy("topic", {descending: true});
+        });
+    });
+    test(`200: returns sorted articles by votes defaults to descending`, () => {
+      return request(app)
+        .get(`/api/articles?sort_by=votes`)
+        .expect(200)
+        .then(({body}) => {
+          expect(body.articles).toBeSortedBy("votes", {descending: true});
+        });
+    });
+    test(`200: order can be set to ascending`, () => {
+      return request(app)
+        .get(`/api/articles?sort_by=created_at&order=asc`)
+        .expect(200)
+        .then(({body}) => {
+          expect(body.articles).toBeSortedBy("created_at", {descending: false});
+        });
+    });
+    test(`200: order can be set to descending`, () => {
+      return request(app)
+        .get(`/api/articles?sort_by=topic&order=desc`)
+        .expect(200)
+        .then(({body}) => {
+          expect(body.articles).toBeSortedBy("topic", {descending: true});
+        });
+    });
+  });
+  test(`200: ?topic, ?sort_by and ?order can be used together`, () => {
+    return request(app)
+      .get(`/api/articles?topic=mitch&sort_by=title&order=asc`)
+      .expect(200)
+      .then(({body}) => {
+        expect(body.articles.length).toBe(11);
+        expect(body.articles).toBeSortedBy("title", {descending: false});
+        body.articles.forEach((article) => {
+          expect(article.topic).toBe("mitch");
+        });
+      });
   });
 });
 
