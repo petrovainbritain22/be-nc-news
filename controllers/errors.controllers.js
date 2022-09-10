@@ -21,5 +21,6 @@ exports.handlePsqlErrors = (err, req, res, next) => {
   } else next(err);
 };
 exports.handle500Errors = (err, req, res, next) => {
+  console.log(err, " << err 500");
   res.status(500).send({msg: "Internal server error"});
 };
