@@ -6,11 +6,20 @@
     "description": "serves an array of all topics",
     "queries": [],
     "exampleResponse": {
-      "topics": [{ "slug": "football", "description": "Footie!" }]
+      "topics": [{"slug": "football", "description": "Footie!"}]
+    }
+  },
+  "GET /api/users": {
+    "description": "servers an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "username": "Vasiliafrombritain22",
+      "name": "Vasilii Petrov",
+      "avatar_url": "https://someadresshere"
     }
   },
   "GET /api/articles": {
-    "description": "serves an array of all topics",
+    "description": "serves an array of all articles",
     "queries": ["author", "topic", "sort_by", "order"],
     "exampleResponse": {
       "articles": [
@@ -23,5 +32,56 @@
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an object of article",
+    "exampleResponse": {
+      "article": {
+        "article_id": 2,
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "created_at": 1527695953341,
+        "votes": 5,
+        "comment_count": 120
+      }
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "updates the votes for the article",
+    "requestBody": {
+      "inc_votes": 1
+    },
+    "exampleResponse": {
+      "article": {
+        "article_id": 2,
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "created_at": 1527695953341,
+        "votes": 5,
+        "comment_count": 120
+      }
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an object of comments for the article",
+    "exampleResponse": [
+      {
+        "comments": {
+          "comment_id": 2,
+          "author": "weegembump",
+          "body": "the comment here",
+          "created_at": 1527695953341,
+          "votes": 5
+        }
+      }
+    ]
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes the given comment by comment_id",
+    "exampleResponse": "status 204 - no content"
   }
 }
