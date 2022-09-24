@@ -221,7 +221,7 @@ describe(`GET - /api/articles/:article_id`, () => {
         expect(body.article).toHaveProperty("comment_count", 0);
       });
   });
-  test(`404: responds with an error message if article_id doesn't exist in database but is valid`, () => {
+  test(`404: responds with an error message if article_id doesn't exist in the database but is valid`, () => {
     return request(app)
       .get(`/api/articles/1000`)
       .expect(404)

@@ -71,7 +71,7 @@ describe(`GET - /api/articles/:article_id/comments`, () => {
   });
 });
 
-describe("POST - /api/articles/:article_id/comments", () => {
+describe(`POST - /api/articles/:article_id/comments`, () => {
   test(`201: responds with an object {comment: comment}, where the value 'comment' is the posted comment`, () => {
     const comment = {
       username: "butter_bridge",
@@ -185,6 +185,41 @@ describe("POST - /api/articles/:article_id/comments", () => {
       .expect(400)
       .then(({body}) => {
         expect(body.msg).toBe("Invalid input");
+      });
+  });
+});
+
+describe(`DELETE - /api/comments/:comment_id`, () => {
+  test(`204: responds with no content and deletes the given comment by comment_id from the database`, () => {
+    return request(app)
+      .delete(`/api/comments/3`)
+      .expect(204)
+      .then(({body}) => {
+        expect(body).toEqual({});
+        return db.query(`SELECT * FROM comments;`);
+      })
+      .then(({rowCount}) => {
+        expect(rowCount).toBe(17);
+        return db.query(`SELECT * FROM comments WHERE comment_id=3;`);
+      })
+      .then(({rowCount}) => {
+        expect(rowCount).toBe(0);
+      });
+  });
+  test(`404: responds with an error message if comment_id doesn't exist in the database but is valid`, () => {
+    return request(app)
+      .delete(`/api/comments/100`)
+      .expect(404)
+      .then(({body}) => {
+        expect(body.msg).toBe(`Comment not found`);
+      });
+  });
+  test(`400: responds with an error message if comment_id is not valid`, () => {
+    return request(app)
+      .delete(`/api/comments/four`)
+      .expect(400)
+      .then(({body}) => {
+        expect(body.msg).toBe(`Invalid input`);
       });
   });
 });
