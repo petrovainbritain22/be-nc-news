@@ -35,6 +35,7 @@ demonstrates the different ways that a user might interact with a system
 ### Entity relationship diagram
 
 is a visual representation of a system’s data
+
 ![use_case_diagram](images/entity_relationship_diagram.png)
 
 ## Instructions
