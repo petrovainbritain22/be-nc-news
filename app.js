@@ -1,4 +1,5 @@
 const express = require("express");
+const {getEndpoints} = require("./controllers/app.controllers");
 const {
   getArticles,
   getArticleById,
@@ -21,6 +22,7 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/api", getEndpoints);
 app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
