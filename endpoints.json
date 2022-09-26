@@ -6,17 +6,24 @@
     "description": "serves an array of all topics",
     "queries": [],
     "exampleResponse": {
-      "topics": [{"slug": "football", "description": "Footie!"}]
+      "topics": [
+        {
+          "slug": "coding",
+          "description": "Code is love, code is life"
+        }
+      ]
     }
   },
   "GET /api/users": {
     "description": "servers an array of all users",
     "queries": [],
-    "exampleResponse": {
-      "username": "Vasiliafrombritain22",
-      "name": "Vasilii Petrov",
-      "avatar_url": "https://someadresshere"
-    }
+    "exampleResponse": [
+      {
+        "username": "grumpy19",
+        "name": "Paul Grump",
+        "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/7/78/Mr-Grumpy-3A.PNG/revision/latest?cb=20170707233013"
+      }
+    ]
   },
   "GET /api/articles": {
     "description": "serves an array of all articles",
@@ -24,11 +31,13 @@
     "exampleResponse": {
       "articles": [
         {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
+          "author": "tickle122",
+          "title": "The battle for Node.js security has only begun",
+          "article_id": 12,
+          "topic": "coding",
+          "created_at": "2020-11-15T13:25:00.000Z",
+          "votes": 0,
+          "comment_count": 7
         }
       ]
     }
@@ -37,15 +46,30 @@
     "description": "serves an object of article",
     "exampleResponse": {
       "article": {
-        "article_id": 2,
-        "title": "Seafood substitutions are increasing",
-        "topic": "cooking",
-        "author": "weegembump",
-        "body": "Text from the article..",
-        "created_at": 1527695953341,
-        "votes": 5,
-        "comment_count": 120
+        "article": {
+          "comment_count": 6,
+          "title": "The Rise Of Thinking Machines: How IBM's Watson Takes On The World",
+          "article_id": 2,
+          "body": "Many people know Watson as the IBM-developed cognitive super computer that won the Jeopardy! gameshow in 2011. In truth, Watson is not actually a computer but a set of algorithms and APIs, and since winning TV fame (and a $1 million prize) IBM has put it to use tackling tough problems in every industry from healthcare to finance. Most recently, IBM has announced several new partnerships which aim to take things even further, and put its cognitive capabilities to use solving a whole new range of problems around the world.",
+          "topic": "coding",
+          "created_at": "2020-05-14T00:02:00.000Z",
+          "votes": 0
+        }
       }
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an object of comments for the article",
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": 63,
+          "votes": -1,
+          "created_at": "2020-08-12T22:10:00.000Z",
+          "author": "jessjelly",
+          "body": "Est pariatur quis ipsa culpa unde temporibus et accusantium rerum. Consequatur in occaecati aut non similique aut quibusdam. Qui sunt magnam iure blanditiis. Et est non enim. Est ab vero dolor."
+        }
+      ]
     }
   },
   "PATCH /api/articles/:article_id": {
@@ -56,29 +80,31 @@
     "exampleResponse": {
       "article": {
         "article_id": 2,
-        "title": "Seafood substitutions are increasing",
-        "topic": "cooking",
-        "author": "weegembump",
-        "body": "Text from the article..",
-        "created_at": 1527695953341,
-        "votes": 5,
-        "comment_count": 120
+        "title": "The Rise Of Thinking Machines: How IBM's Watson Takes On The World",
+        "topic": "coding",
+        "author": "jessjelly",
+        "body": "Many people know Watson as the IBM-developed cognitive super computer that won the Jeopardy! gameshow in 2011. In truth, Watson is not actually a computer but a set of algorithms and APIs, and since winning TV fame (and a $1 million prize) IBM has put it to use tackling tough problems in every industry from healthcare to finance. Most recently, IBM has announced several new partnerships which aim to take things even further, and put its cognitive capabilities to use solving a whole new range of problems around the world.",
+        "created_at": "2020-05-14T00:02:00.000Z",
+        "votes": 1
       }
     }
   },
-  "GET /api/articles/:article_id/comments": {
-    "description": "serves an object of comments for the article",
-    "exampleResponse": [
-      {
-        "comments": {
-          "comment_id": 2,
-          "author": "weegembump",
-          "body": "the comment here",
-          "created_at": 1527695953341,
-          "votes": 5
-        }
+  "POST - /api/articles/:article_id/comments": {
+    "description": "post a comment for the given article",
+    "requestBody": {
+      "username": "happyamy2016",
+      "body": "React is a cool Library"
+    },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": 301,
+        "body": "React is a cool Library",
+        "article_id": 3,
+        "author": "happyamy2016",
+        "votes": 0,
+        "created_at": "2022-09-25T14:08:29.847Z"
       }
-    ]
+    }
   },
   "DELETE /api/comments/:comment_id": {
     "description": "deletes the given comment by comment_id",
