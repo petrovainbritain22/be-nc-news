@@ -202,6 +202,7 @@ describe(`GET - /api/articles/:article_id`, () => {
       .then(({body}) => {
         expect(body.article).toEqual(
           expect.objectContaining({
+            author: expect.any(String),
             title: expect.any(String),
             article_id: 4,
             body: expect.any(String),
@@ -250,6 +251,7 @@ describe(`PATCH - /api/articles/:article_id`, () => {
         expect(body).toHaveProperty("article", expect.any(Object));
         expect(body.article).toEqual(
           expect.objectContaining({
+            author: expect.any(String),
             article_id: 2,
             title: expect.any(String),
             body: expect.any(String),

@@ -70,7 +70,7 @@ exports.selectArticles = (
 };
 
 exports.selectArticleById = (article_id) => {
-  const queryStr = `SELECT count (comment_id) as comment_count, articles.title, articles.article_id, articles.body, articles.topic, articles.created_at, articles.votes
+  const queryStr = `SELECT count (comment_id) as comment_count, articles.author, articles.title, articles.article_id, articles.body, articles.topic, articles.created_at, articles.votes
     FROM comments 
     RIGHT OUTER JOIN articles 
     ON comments.article_id = articles.article_id
