@@ -1,10 +1,9 @@
 # NorthCoders News
 
 This project is a RESTful API for accessing application data programmatically.
-The intention here is to mimic API the building of a real world backend service
-(such as reddit - an American social news aggregation, content rating, and
-discussion website) which should provide this information to the front end
-architecture.
+The intention here is to mimic the API of a real world backend service (such as
+reddit - an American social news aggregation, content rating, and discussion
+website) which should provide this information to the front end architecture.
 
 Various HTTP requests can be performed to [endpoints](/endpoints.json) for
 articles, comments and users.
@@ -41,6 +40,11 @@ Detailed instructions how to clone read [here](/instructions/how-clone.md)
 
 ### 2. Install
 
+Run `npm install` - this will install all the dependencies and devDependencies
+in your `package.json` file.
+
+#### Packages used in the project:
+
 **Node Package Manager** is a registry of open source JavaScript libraries
 
 - `npm init -y` Initialise NPM in a project
@@ -68,7 +72,7 @@ if you use node >= 14.x, you will need to install pg@8.2.x or later.
 
 - `npm i dotenv` Loads environment variables from a .env file into process.env.
 
-  **Husky**
+**Husky**
 
 Husky will ensure that only working code is committed. It will run the tests
 before each commit.
@@ -89,15 +93,12 @@ You will need to create two `.env` files for the project. Enter in terminal
 - `echo "PGDATABASE=nc_news" > .env.development`
 - `echo "PGDATABASE=nc_news_test" > .env.test`
 
-Add .env.\* files to .gitignore
+For creating the databases and seeding the databases (A seed function is one
+that will remove any existing data from a database, recreate the tables and
+repopulate it dynamically) you use the npm scripts that are in the
+`package.json`.
 
-- `echo "\n.env.*" >> .gitignore` Be careful! Here we use `>>`. If you type `>`
-  by mistake, you'll overwrite all the content in the .gitignore file.
-
-A seed function is one that will remove any existing data from a database,
-recreate the tables and repopulate it dynamically. Run it in terminal
-
-- `node ./db/seeds/run-seed.js`
+- `npm run seed` and `npm run setup-dbs`
 
 ## Diagrams
 
