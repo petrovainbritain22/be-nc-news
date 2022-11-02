@@ -5,6 +5,8 @@ The intention here is to mimic the API of a real world backend service (such as
 reddit - an American social news aggregation, content rating, and discussion
 website) which should provide this information to the front end architecture.
 
+**The published website you can find on [https://ncews.netlify.app](https://ncews.netlify.app).**
+
 Various HTTP requests can be performed to [endpoints](/endpoints.json) for
 articles, comments and users.
 
@@ -12,8 +14,6 @@ A hosted version of the API can be found on
 [Heroku.com](https://student-coders-news.herokuapp.com/).
 
 The front-end repository of the "NorthCoders News" project [https://github.com/petrovainbritain22/nc-news](https://github.com/petrovainbritain22/nc-news).
-
-**The published website you can find on [https://ncews.netlify.app](https://ncews.netlify.app).**
 
 # About the project
 
