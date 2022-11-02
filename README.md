@@ -11,6 +11,10 @@ articles, comments and users.
 A hosted version of the API can be found on
 [Heroku.com](https://student-coders-news.herokuapp.com/).
 
+The front-end repository of the "NorthCoders News" project [https://github.com/petrovainbritain22/nc-news](https://github.com/petrovainbritain22/nc-news).
+
+**The published website you can find on [https://ncews.netlify.app](https://ncews.netlify.app).**
+
 # About the project
 
 It is created as a part of studying at
